@@ -23,6 +23,7 @@ public class LogisticsApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) {
-		initDbService.initDb();
+		// for testing
+//		initDbService.initDb();
 	}
 }

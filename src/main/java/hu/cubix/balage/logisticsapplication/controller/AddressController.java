@@ -53,6 +53,10 @@ public class AddressController {
 
     @PostMapping
     public ResponseEntity<AddressDto> create(@Validated @RequestBody AddressDto addressDto) {
+        if (addressDto.getId() != 0) {
+            return ResponseEntity.badRequest().build();
+        }
+
         AddressInnerDto address = addressService.create(addressMapper.dtoToInnerDto(addressDto));
         return ResponseEntity.ok(addressMapper.innerDtoToDto(address));
     }
@@ -66,6 +70,11 @@ public class AddressController {
     @PutMapping("/{id}")
     public ResponseEntity<AddressDto> modify(@PathVariable long id, @Validated @RequestBody AddressDto addressDto) {
         try {
+            long addressDtoId = addressDto.getId();
+            if (addressDtoId != 0 && id != addressDtoId) {
+                return ResponseEntity.badRequest().build();
+            }
+
             AddressInnerDto address = addressService.modify(id, addressMapper.dtoToInnerDto(addressDto));
             return ResponseEntity.ok(addressMapper.innerDtoToDto(address));
         } catch (AddressNotFoundException e) {
@@ -74,7 +83,11 @@ public class AddressController {
     }
 
     @PostMapping("/search")
-    public ResponseEntity<List<AddressDto>> search(@Validated @RequestBody AddressDto addressDto, @SortDefault("id") Pageable pageable) {
+    public ResponseEntity<List<AddressDto>> search(@RequestBody AddressDto addressDto, @SortDefault("id") Pageable pageable) {
+        if (addressDto == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
         Page<Address> page = addressService.search(addressMapper.dtoToInnerDto(addressDto), pageable);
 
         HttpHeaders responseHeaders = new HttpHeaders();

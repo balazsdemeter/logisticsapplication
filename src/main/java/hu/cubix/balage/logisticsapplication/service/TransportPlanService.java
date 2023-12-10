@@ -42,7 +42,6 @@ public class TransportPlanService {
         List<Section> sections = transportPlan.getSections();
         sections = sections.stream().sorted(Comparator.comparing(Section::getOrderNumber)).toList();
 
-        var lastIndex = sections.size() - 1;
         Section section = sections
                 .stream()
                 .filter(s -> s.getStartMileStone().getId() == milesStoneId || s.getEndMileStone().getId() == milesStoneId)
@@ -65,6 +64,7 @@ public class TransportPlanService {
 
             var index = sections.indexOf(section);
 
+            var lastIndex = sections.size() - 1;
             if (index + 1 <= lastIndex) {
                 Section newSection = sections.get(index + 1);
                 Milestone newStartMileStone = newSection.getStartMileStone();

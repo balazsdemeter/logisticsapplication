@@ -1,18 +1,13 @@
 package hu.cubix.balage.logisticsapplication.dto;
 
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 
 public class AddressDto {
-    @Min(0)
-    @Max(0)
     private long id;
     private LocalDateTime createDate;
     private LocalDateTime modifyDate;
